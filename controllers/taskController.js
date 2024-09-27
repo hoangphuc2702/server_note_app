@@ -13,11 +13,22 @@ app.get("/getTasks", async (req, res) => {
     }
 });
 
+// Endpoint to search task
+app.get("/searchTask/:name", async (req, res) => {
+    try {
+        const name = req.params.name;
+        const tasks = await Task.find({ name: { $regex: name, $options: 'i' } }); // Tìm kiếm không phân biệt hoa thường
+        res.json(tasks);
+    } catch (err) {
+        res.status(400).json({ err: 'ERROR' });
+    }
+});
+
 // Endpoint to insert a new task
 app.post("/insertTask", async (req, res) => {
     try {
-        const { name, date, description, time, location, host, note, status, approver } = req.body;
-        console.log(name + ":" + date + ":" + description + ":" + time + location + ":" + host);
+        const { content, date, time, location, host, note, status, approver } = req.body;
+        console.log(content + ":" + date + ":" + time + location + ":" + host);
 
         // Sử dụng phương thức createFromRequestBody để tạo Task mới
         const newTask = Task.createFromRequestBody(req.body);
@@ -45,12 +56,11 @@ app.delete("/deleteTask/:id", async (req, res) => {
 app.put("/updateTask/:id", async (req, res) => {
     try {
         const taskId = req.params.id;
-        const { name, description, time, location, host, note, status, approver } = req.body;
+        const { content, time, location, host, note, status, approver } = req.body;
         
         // Cập nhật các trường tùy chọn, kiểm tra nếu không null mới cập nhật
         const updateFields = {};
-        if (name) updateFields.name = name;
-        if (description) updateFields.description = description;
+        if (content) updateFields.content = content;
         if (time) updateFields.time = time;
         if (location !== undefined) updateFields.location = location; // Boolean có thể là false
         if (host) updateFields.host = host;
