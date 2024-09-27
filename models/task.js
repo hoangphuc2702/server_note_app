@@ -10,7 +10,8 @@ const taskSchema = new Schema({
     host: [{ type: String, required: true, trim: true }], // Thay đổi thành Array
     note: { type: String, trim: true },
     status: { type: String, trim: true}, // Trạng thái công việc
-    approver: { type: String, trim: true } // Người thực hiện kiểm duyệt
+    approver: { type: String, trim: true }, // Người thực hiện kiểm duyệt
+    isStarred: { type: Boolean, trim: true } 
 });
 
 // Phương thức tạo đối tượng Task từ req.body
@@ -24,6 +25,7 @@ taskSchema.statics.createFromRequestBody = function(body) {
         note: body.note,
         status: body.status,
         approver: body.approver,
+        isStarred: body.isStarred,
     });
 };
 
