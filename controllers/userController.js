@@ -24,6 +24,24 @@ app.get("/searchUser/:name", async (req, res) => {
     }
 });
 
+// Endpoint to login a user
+app.post("/login", async (req, res) => {
+    try {
+        const { mail, pass } = req.body;
+
+        // Tìm người dùng theo mail
+        const user = await User.findOne({ mail });
+        if (!user || user.pass !== pass) {
+            return res.status(401).json({ message: "Invalid email or password" });
+        }
+
+        // Trả về thông tin người dùng nếu đăng nhập thành công
+        res.json({ message: "Login successful", user });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to login" });
+    }
+});
+
 // Endpoint to insert a new user
 app.post("/insertUser", async (req, res) => {
     try {

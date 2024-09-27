@@ -75,4 +75,27 @@ app.put("/updateTask/:id", async (req, res) => {
     }
 });
 
+// Endpoint to toggle the isStarred status of a task
+app.put("/updateStarredTask/:id", async (req, res) => {
+    try {
+        const taskId = req.params.id;
+
+        // Tìm task theo ID
+        const task = await Task.findById(taskId);
+        if (!task) {
+            return res.status(404).json({ error: "Task not found" });
+        }
+
+        // Đảo ngược giá trị isStarred
+        task.isStarred = !task.isStarred;
+
+        // Lưu lại công việc đã cập nhật
+        await task.save();
+
+        res.json({ message: "Task updated successfully", isStarred: task.isStarred });
+    } catch (err) {
+        res.status(500).json({ error: "Failed to update task" });
+    }
+});
+
 module.exports = app;
