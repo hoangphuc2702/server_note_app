@@ -3,9 +3,8 @@ const Schema = mongoose.Schema;
 
 // Định nghĩa schema cho model Task
 const taskSchema = new Schema({
-    name: { type: String, required: true, trim: true },
+    content: { type: String, required: true, trim: true },
     date: { type: Date, required: true, trim: true },
-    description: { type: String, required: true, trim: true },
     time: { type: String, required: true, trim: true },
     location: { type: Boolean, required: true, trim: true },
     host: [{ type: String, required: true, trim: true }], // Thay đổi thành Array
@@ -17,9 +16,8 @@ const taskSchema = new Schema({
 // Phương thức tạo đối tượng Task từ req.body
 taskSchema.statics.createFromRequestBody = function(body) {
     return new this({
-        name: body.name,
+        content: body.content,
         date: new Date(body.date),  // Lưu phần ngày từ req.body
-        description: body.description,
         time: body.time,
         location: body.location,
         host: body.host,
