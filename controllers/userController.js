@@ -13,6 +13,16 @@ app.get("/getUsers", async (req, res) => {
     }
 });
 
+app.get("/searchUser", async (req, res) => {
+    const { name } = req.query; // Lấy tên từ query parameter
+    try {
+        const users = await User.find({ name: { $regex: name, $options: 'i' } }); // Tìm kiếm không phân biệt hoa thường
+        res.json(users);
+    } catch (err) {
+        res.status(400).json({ err: 'ERROR' });
+    }
+});
+
 // Endpoint to insert a new user
 app.post("/insertUser", async (req, res) => {
     try {
