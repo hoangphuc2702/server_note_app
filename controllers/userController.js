@@ -13,9 +13,10 @@ app.get("/getUsers", async (req, res) => {
     }
 });
 
-app.get("/searchUser", async (req, res) => {
-    const { name } = req.query; // Lấy tên từ query parameter
+// Endpoint to search user
+app.get("/searchUser/:name", async (req, res) => {
     try {
+        const name = req.params.name;
         const users = await User.find({ name: { $regex: name, $options: 'i' } }); // Tìm kiếm không phân biệt hoa thường
         res.json(users);
     } catch (err) {

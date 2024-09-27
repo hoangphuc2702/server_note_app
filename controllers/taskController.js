@@ -13,6 +13,17 @@ app.get("/getTasks", async (req, res) => {
     }
 });
 
+// Endpoint to search task
+app.get("/searchTask/:name", async (req, res) => {
+    try {
+        const name = req.params.name;
+        const tasks = await Task.find({ name: { $regex: name, $options: 'i' } }); // Tìm kiếm không phân biệt hoa thường
+        res.json(tasks);
+    } catch (err) {
+        res.status(400).json({ err: 'ERROR' });
+    }
+});
+
 // Endpoint to insert a new task
 app.post("/insertTask", async (req, res) => {
     try {
