@@ -6,7 +6,7 @@ const taskSchema = new Schema({
     content: { type: String, required: true, trim: true },
     date: { type: Date, required: true, trim: true },
     time: { type: String, required: true, trim: true },
-    location: { type: Boolean, required: true, trim: true },
+    location: { type: String, required: true, trim: true },
     host: [{ type: String, required: true, trim: true }], // Thay đổi thành Array
     note: { type: String, trim: true },
     status: { type: String, trim: true}, // Trạng thái công việc
