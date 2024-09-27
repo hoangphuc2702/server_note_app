@@ -24,15 +24,12 @@ app.get('/', (req, res) =>{
     res.send("Hello world!")
 });
 
-app.get('/note', (req, res) =>{
-    res.send("This is note page")
-});
-
 // user controller
-app.use(userController);
+app.use("/user", userController);
 
 // task controller
-app.use(taskController);
+app.use("/task", taskController);
+// task/getTasks
 
 app.listen(3000, () => {
     console.log("Server is running port http://localhost:3000");

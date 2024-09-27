@@ -17,7 +17,7 @@ app.get("/getTasks", async (req, res) => {
 app.post("/insertTask", async (req, res) => {
     try {
         const { name, date, description, time, location, host, note, status, approver } = req.body;
-        console.log(name + ":" + date + ":" + description + ":" + time);
+        console.log(name + ":" + date + ":" + description + ":" + time + location + ":" + host);
 
         // Sử dụng phương thức createFromRequestBody để tạo Task mới
         const newTask = Task.createFromRequestBody(req.body);

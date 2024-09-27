@@ -8,7 +8,7 @@ const taskSchema = new Schema({
     description: { type: String, required: true, trim: true },
     time: { type: String, required: true, trim: true },
     location: { type: Boolean, required: true, trim: true },
-    host: { type: String, required: true, trim: true },
+    host: [{ type: String, required: true, trim: true }], // Thay đổi thành Array
     note: { type: String, trim: true },
     status: { type: String, trim: true}, // Trạng thái công việc
     approver: { type: String, trim: true } // Người thực hiện kiểm duyệt
