@@ -14,13 +14,43 @@ app.get("/getTasks", async (req, res) => {
 });
 
 // Endpoint to search task
-app.get("/searchTask/:name", async (req, res) => {
+app.get("/searchTaskbyname/:name", async (req, res) => {
     try {
         const name = req.params.name;
         const tasks = await Task.find({ name: { $regex: name, $options: 'i' } }); // Tìm kiếm không phân biệt hoa thường
         res.json(tasks);
     } catch (err) {
         res.status(400).json({ err: 'ERROR' });
+    }
+});
+
+// Endpoint to search task by exact date
+app.get("/searchTaskbydate/:date", async (req, res) => {
+    try {
+        const dateStr = req.params.date; // Ngày dưới dạng chuỗi
+        const date = new Date(dateStr); // Chuyển đổi chuỗi thành đối tượng Date
+
+        // Kiểm tra xem ngày có hợp lệ hay không
+        if (isNaN(date.getTime())) {
+            return res.status(400).json({ error: 'Invalid date format' });
+        }
+
+        // Tạo một ngày không có giờ phút giây để so sánh chính xác
+        const startOfDay = new Date(date.setHours(0, 0, 0, 0));
+        const endOfDay = new Date(date.setHours(23, 59, 59, 999));
+
+        // Tìm kiếm công việc trong khoảng thời gian (ngày cụ thể)
+        const tasks = await Task.find({
+            date: {
+                $gte: startOfDay,
+                $lte: endOfDay
+            }
+        });
+
+        // Nếu tìm thấy công việc
+        res.json(tasks);
+    } catch (err) {
+        res.status(500).json({ error: 'ERROR' });
     }
 });
 
